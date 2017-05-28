@@ -1,21 +1,15 @@
 # Пакет для работы с Яндекс.Кассой.
 
-===
-
 Возможности:
 
 * создание платёжной формы;
 * передача данных согласно 54-ФЗ;
 * обработка уведомлений `checkOrder` и `paymentAviso`.
 
-===
-
 Требования:
 
 * php >= 7.1
 * Laravel >= 5.3 
-
-===
 
 # Установка
 
@@ -39,15 +33,15 @@ composer require appwilio/yakassa
 ```php
 // config/services.php
 ...
-    'yakassa' => [
-        'test_mode'     => env('YAKASSA_TEST_MODE', true),
-        'shop_id'       => env('YAKASSA_SHOP_ID'),
-        'showcase_id'   => env('YAKASSA_SHOWCASE_ID'),
-        'shop_password' => env('YAKASSA_SHOP_PASSWORD'),        
-    ],
+'yakassa' => [
+    'test_mode'     => env('YAKASSA_TEST_MODE', true),
+    'shop_id'       => env('YAKASSA_SHOP_ID'),
+    'showcase_id'   => env('YAKASSA_SHOWCASE_ID'),
+    'shop_password' => env('YAKASSA_SHOP_PASSWORD'),        
+],
 ...
 ```
-## Подготовка основных данных для платёжной формы
+# Подготовка основных данных для платёжной формы
 
 Заказ должен имплементировать интерфейс `\Appwilio\YaKassa\Contracts\YaKassaOrder`:
 
@@ -90,7 +84,7 @@ class Order implements YaKassaOrder
 }
 ```
 
-### Дополнительные данные согласно требованиям 54-ФЗ
+## Дополнительные данные согласно требованиям 54-ФЗ
 
 > Внимание! Протокол дополняется, текущая версия 2.1. [Общая информация](https://kassa.yandex.ru/blog/fz54-developers), [описание изменений](https://kassa.yandex.ru/docs/API_Yandex.Kassa_54FZ_changes.pdf).
 
@@ -187,7 +181,7 @@ class OrderItem implements YaKassaOrderItem54FZ
 }
 ```
 
-## Создание платёжной формы
+# Создание платёжной формы
 
 В контролллере:
 
@@ -211,11 +205,40 @@ class OrdersController
 В шаблоне:
 
 ```blade
-    <form method="POST" action="{{ $form->getPaymentUrl() }}">
-        @foreach ($form->toArray() as $k => $v) 
-            <input type="hidden" name="{{ $k }}" value="{{ $v }}" />
-        @endforeach
-        
-        ...
-    </form>
+<form method="POST" action="{{ $form->getPaymentUrl() }}">
+    @foreach ($form->toArray() as $k => $v) 
+        <input type="hidden" name="{{ $k }}" value="{{ $v }}" />
+    @endforeach
+    
+    ...
+</form>
 ```
+
+# Обработка уведомлений
+
+[Общее описание механизма уведомлений](https://github.com/yandex-money/yandex-money-joinup/blob/master/demo/010%20интеграция%20для%20самописных%20сайтов.md#Шаг-2-Скрипты-checkurl-и-avisourl-колбеки)
+```php
+<?php
+
+use Appwilio\YaKassa\YaKassa;
+
+class YaHookController extends Controller
+{
+    public function checkOrder(YaKassa $kassa)
+    {
+        $order = Order::find($kassa->getRequest()->getOrderNumber());
+
+        if (! $order) {
+            return $kassa->responseDeclined();
+        }
+
+        // используем реальное значение суммы заказа, а не присланное Я.Кассой
+        $kassa->setGenuineOrderSumAmount($order->total);
+
+        if (! $kassa->verify()) {
+            return $kassa->responseUnauthorized();
+        }
+
+        return $kassa->responseAccepted();
+    }
+}
