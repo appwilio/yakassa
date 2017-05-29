@@ -1,4 +1,6 @@
-# Пакет для работы с Яндекс.Кассой.
+# Пакет для работы с Яндекс.Кассой
+
+> **Ранняя альфа, использовать осторожно!**
 
 Возможности:
 
@@ -30,6 +32,7 @@ composer require appwilio/yakassa
 Настройки:
 
 > [Описание параметров](https://tech.yandex.ru/money/doc/payment-solution/shop-config/parameters-docpage/).
+
 ```php
 // config/services.php
 ...
@@ -41,13 +44,12 @@ composer require appwilio/yakassa
 ],
 ...
 ```
-# Подготовка основных данных для платёжной формы
+
+## Подготовка основных данных для платёжной формы
 
 Заказ должен имплементировать интерфейс `\Appwilio\YaKassa\Contracts\YaKassaOrder`:
 
 ```php
-<?php
-
 use Appwilio\YaKassa\Contracts\YaKassaOrder;
 
 class Order implements YaKassaOrder
@@ -84,16 +86,13 @@ class Order implements YaKassaOrder
 }
 ```
 
-## Дополнительные данные согласно требованиям 54-ФЗ
+### Дополнительные данные согласно требованиям 54-ФЗ
 
 > Внимание! Протокол дополняется, текущая версия 2.1. [Общая информация](https://kassa.yandex.ru/blog/fz54-developers), [описание изменений](https://kassa.yandex.ru/docs/API_Yandex.Kassa_54FZ_changes.pdf).
-
 
 Заказ должен имплементировать интерфейс `\Appwilio\YaKassa\Contracts\YaKassaOrder54FZ`:
 
 ```php
-<?php
-
 use Appwilio\YaKassa\Contracts\YaKassaOrder54FZ;
 
 class Order implements YaKassaOrder54FZ
@@ -148,8 +147,6 @@ class Order implements YaKassaOrder54FZ
 Каждая позиция заказа должна имплементировать интерфейс `\Appwilio\YaKassa\Contracts\YaKassaOrderItem54FZ`:
 
 ```php
-<?php
-
 use Appwilio\YaKassa\Contracts\YaKassaOrderItem54FZ;
 
 class OrderItem implements YaKassaOrderItem54FZ
@@ -181,16 +178,16 @@ class OrderItem implements YaKassaOrderItem54FZ
 }
 ```
 
-# Создание платёжной формы
+## Создание платёжной формы
 
 В контролллере:
 
 ```php
-<?php
+use Appwilio\YaKassa\YaKassa;
 
 class OrdersController
 {
-    public function showPaymentForm(\Appwilio\YaKassa\YaKassa $kassa, $orderId)
+    public function showPaymentForm(YaKassa $kassa, $orderId)
     {
         $order = Order::find($orderId);
         
@@ -214,12 +211,11 @@ class OrdersController
 </form>
 ```
 
-# Обработка уведомлений
+## Обработка уведомлений
 
-[Общее описание механизма уведомлений](https://github.com/yandex-money/yandex-money-joinup/blob/master/demo/010%20интеграция%20для%20самописных%20сайтов.md#Шаг-2-Скрипты-checkurl-и-avisourl-колбеки)
+> [Общее описание механизма уведомлений](https://github.com/yandex-money/yandex-money-joinup/blob/master/demo/010%20интеграция%20для%20самописных%20сайтов.md#Шаг-2-Скрипты-checkurl-и-avisourl-колбеки)
+
 ```php
-<?php
-
 use Appwilio\YaKassa\YaKassa;
 
 class YaHookController extends Controller
