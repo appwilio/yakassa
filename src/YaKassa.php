@@ -25,10 +25,10 @@ class YaKassa
 
     private const PAYMENT_URL = 'money.yandex.ru/eshop.xml';
 
-    /** @var int */
+    /** @var string */
     private $shopId;
 
-    /** @var int */
+    /** @var string */
     private $showcaseId;
 
     /** @var string */
@@ -55,7 +55,7 @@ class YaKassa
     /** @var bool */
     private $testMode;
 
-    public function __construct(int $shopId, int $showcaseId, string $shopPassword, bool $testMode = false)
+    public function __construct(string $shopId, string $showcaseId, string $shopPassword, bool $testMode = false)
     {
         $this->shopId = $shopId;
         $this->showcaseId = $showcaseId;

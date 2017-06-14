@@ -29,7 +29,7 @@ class YaKassaPaymentForm
     /** @var array */
     private $parameters = [];
 
-    public function __construct(int $shopId, int $showcaseId, string $paymentUrl)
+    public function __construct(string $shopId, string $showcaseId, string $paymentUrl)
     {
         $this->setParameter('shopId', $shopId);
         $this->setParameter('scid', $showcaseId);
