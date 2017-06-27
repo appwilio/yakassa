@@ -80,6 +80,10 @@ class YaKassaPaymentForm
         $this->setParameter('cps_email', $this->order->getCustomerEmail());
         $this->setParameter('cps_phone', $this->order->getCustomerPhone());
 
+        if ($pm = $this->order->getPaymentType()) {
+            $this->setParameter('paymentType', $pm);
+        }
+
         if ($this->order instanceof YaKassaOrder54FZ) {
             $this->setParameter('ym_merchant_receipt', json_encode($this->getMerchantReceipt($this->order)));
         }
