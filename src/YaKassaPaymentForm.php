@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Appwilio\YaKassa;
 
-use Illuminate\Support\Str;
 use Appwilio\YaKassa\Contracts\YaKassaOrder;
 use Appwilio\YaKassa\Contracts\YaKassaOrder54FZ;
 use Appwilio\YaKassa\Contracts\YaKassaOrderItem54FZ;
@@ -73,7 +72,7 @@ class YaKassaPaymentForm
 
     public function toArray(): array
     {
-        $this->setParameter('sum', $this->order->getOrderSum());
+        $this->setParameter('sum', number_format($this->order->getOrderSum(), 2, '.', ''));
         $this->setParameter('orderNumber', $this->order->getOrderNumber());
         $this->setParameter('customerNumber', $this->order->getCustomerNumber());
 
@@ -85,7 +84,10 @@ class YaKassaPaymentForm
         }
 
         if ($this->order instanceof YaKassaOrder54FZ) {
-            $this->setParameter('ym_merchant_receipt', json_encode($this->getMerchantReceipt($this->order)));
+            $this->setParameter('ym_merchant_receipt', json_encode(
+                $this->getMerchantReceipt($this->order),
+                JSON_UNESCAPED_UNICODE
+            ));
         }
 
         return array_filter($this->parameters);
@@ -120,10 +122,15 @@ class YaKassaPaymentForm
             'price' => [
                 'amount' => number_format($item->getAmount(), 2, '.', '')
             ],
-            'text' => Str::substr($item->getTitle(), 0, 127),
+            'text' => mb_substr($item->getTitle(), 0, 127, 'UTF-8'),
             'tax' => $item->getTaxRate(),
-            'quantity' => number_format($item->getQuantity(), 3, '.', ''),
+            'quantity' => $this->formatQuantity($item->getQuantity()),
             'currency' => $item->getCurrency(),
         ]);
+    }
+
+    private function formatQuantity($quantity)
+    {
+        return is_int($quantity) ? $quantity : (float) number_format($quantity, 3, '.', '');
     }
 }

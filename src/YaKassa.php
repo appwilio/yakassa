@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Appwilio\YaKassa;
 
-use Illuminate\Support\Arr;
 use Illuminate\Http\Response;
 use Appwilio\YaKassa\Contracts\YaKassaOrder;
 
@@ -49,7 +48,7 @@ class YaKassa
         'orderSumBankPaycash',
         'shopId',
         'invoiceId',
-        'customerNumber'
+        'customerNumber',
     ];
 
     /** @var bool */
@@ -93,7 +92,7 @@ class YaKassa
             return false;
         }
 
-        $source = Arr::only($this->request->all(), self::$significantFields);
+        $source = array_intersect_key($this->request->all(), array_flip(self::$significantFields));
 
         $source['shopId'] = $this->shopId;
         $source['orderSumAmount'] = $this->genuineAmount;
@@ -136,14 +135,14 @@ class YaKassa
 
     private function buildResponse(int $code): Response
     {
-        $content  = '<?xml version="1.0" encoding="UTF-8"?>';
+        $content = '<?xml version="1.0" encoding="UTF-8"?>';
 
         $content .= vsprintf('<%sResponse performedDatetime="%s" code="%d" invoiceId="%d" shopId="%d" />', [
             $this->request->getAction(),
             date(\DateTime::RFC3339),
             $code,
             $this->request->getInvoiceId(),
-            $this->shopId
+            $this->shopId,
         ]);
 
         return new Response($content, Response::HTTP_OK, ['Content-Type' => 'application/xml']);

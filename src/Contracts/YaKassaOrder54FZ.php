@@ -25,7 +25,7 @@ interface YaKassaOrder54FZ extends YaKassaOrder
     /**
      * Товары/услуги в чеке.
      *
-     * @return iterable  массив/итератор/генератор объектов YaKassaOrderItem54FZ
+     * @return iterable массив/итератор/генератор объектов YaKassaOrderItem54FZ
      */
     public function getItems(): iterable;
 

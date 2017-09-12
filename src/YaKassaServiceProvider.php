@@ -14,9 +14,13 @@ declare(strict_types=1);
 namespace Appwilio\YaKassa;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Foundation\Application;
 
 class YaKassaServiceProvider extends ServiceProvider
 {
+    /** @var Application */
+    protected $app;
+
     protected $defer = true;
 
     public function register(): void
