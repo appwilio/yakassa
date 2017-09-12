@@ -1,1 +1,2 @@
-* text=auto
+/tests          export-ignore
+/.gitattributes export-ignore

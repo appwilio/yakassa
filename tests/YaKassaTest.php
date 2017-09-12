@@ -13,8 +13,9 @@ namespace Appwilio\YaKassa\Tests;
 
 use Appwilio\YaKassa\YaKassa;
 use Appwilio\YaKassa\YaKassaRequest;
+use PHPUnit\Framework\TestCase;
 
-class YaKassaTest extends \PHPUnit_Framework_TestCase
+class YaKassaTest extends TestCase
 {
     private const SHOP_SECRET = 'secret';
 
