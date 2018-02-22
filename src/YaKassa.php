@@ -9,6 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace Appwilio\YaKassa;
@@ -84,20 +85,20 @@ class YaKassa
 
     public function verify(): bool
     {
-        if (! in_array($this->request->getAction(), ['checkOrder', 'paymentAviso'], true)) {
+        if (! \in_array($this->request->getAction(), ['checkOrder', 'paymentAviso'], true)) {
             return false;
         }
 
-        if (0 !== count(array_diff(self::$significantFields, array_keys($this->request->all())))) {
+        if (0 !== \count(\array_diff(self::$significantFields, \array_keys($this->request->all())))) {
             return false;
         }
 
-        $source = array_intersect_key($this->request->all(), array_flip(self::$significantFields));
+        $source = \array_intersect_key($this->request->all(), \array_flip(self::$significantFields));
 
         $source['shopId'] = $this->shopId;
         $source['orderSumAmount'] = $this->genuineAmount;
 
-        uksort($source, function ($a, $b) {
+        \uksort($source, function ($a, $b) {
             return
                 array_search($a, self::$significantFields, true)
                 <=>
@@ -106,7 +107,7 @@ class YaKassa
 
         $source['secret'] = $this->shopPassword;
 
-        return $this->request->get('md5') === strtoupper(md5(implode(';', $source)));
+        return $this->request->get('md5') === \strtoupper(md5(implode(';', $source)));
     }
 
     public function responseDeclined(): Response
@@ -137,9 +138,9 @@ class YaKassa
     {
         $content = '<?xml version="1.0" encoding="UTF-8"?>';
 
-        $content .= vsprintf('<%sResponse performedDatetime="%s" code="%d" invoiceId="%d" shopId="%d" />', [
+        $content .= \vsprintf('<%sResponse performedDatetime="%s" code="%d" invoiceId="%d" shopId="%d" />', [
             $this->request->getAction(),
-            date(\DateTime::RFC3339),
+            \date(\DateTime::RFC3339),
             $code,
             $this->request->getInvoiceId(),
             $this->shopId,

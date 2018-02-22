@@ -9,6 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 declare(strict_types=1);
 
 namespace Appwilio\YaKassa;
@@ -84,7 +85,7 @@ class YaKassaPaymentForm
         }
 
         if ($this->order instanceof YaKassaOrder54FZ) {
-            $this->setParameter('ym_merchant_receipt', json_encode(
+            $this->setParameter('ym_merchant_receipt', \json_encode(
                 $this->getMerchantReceipt($this->order),
                 JSON_UNESCAPED_UNICODE
             ));
@@ -98,7 +99,7 @@ class YaKassaPaymentForm
         $orderItems = $order->getItems();
 
         if ($orderItems instanceof \Traversable) {
-            $orderItems = iterator_to_array($orderItems);
+            $orderItems = \iterator_to_array($orderItems);
         }
 
         $receiptItems = [];
@@ -120,9 +121,9 @@ class YaKassaPaymentForm
     {
         return array_filter([
             'price' => [
-                'amount' => number_format($item->getAmount(), 2, '.', '')
+                'amount' => \number_format($item->getAmount(), 2, '.', '')
             ],
-            'text' => mb_substr($item->getTitle(), 0, 127, 'UTF-8'),
+            'text' => \mb_substr($item->getTitle(), 0, 127, 'UTF-8'),
             'tax' => $item->getTaxRate(),
             'quantity' => $this->formatQuantity($item->getQuantity()),
             'currency' => $item->getCurrency(),
@@ -131,6 +132,6 @@ class YaKassaPaymentForm
 
     private function formatQuantity($quantity)
     {
-        return is_int($quantity) ? $quantity : (float) number_format($quantity, 3, '.', '');
+        return \is_int($quantity) ? $quantity : (float) \number_format($quantity, 3, '.', '');
     }
 }
