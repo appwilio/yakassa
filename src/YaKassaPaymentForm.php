@@ -123,15 +123,20 @@ class YaKassaPaymentForm
             'price' => [
                 'amount' => \number_format($item->getAmount(), 2, '.', '')
             ],
-            'text' => \mb_substr($item->getTitle(), 0, 127, 'UTF-8'),
             'tax' => $item->getTaxRate(),
-            'quantity' => $this->formatQuantity($item->getQuantity()),
             'currency' => $item->getCurrency(),
+            'text' => $this->formatTitle($item->getTitle()),
+            'quantity' => $this->formatQuantity($item->getQuantity()),
         ]);
     }
 
     private function formatQuantity($quantity)
     {
         return \is_int($quantity) ? $quantity : (float) \number_format($quantity, 3, '.', '');
+    }
+
+    private function formatTitle(string $title): string
+    {
+        return \preg_replace('~[«»]~um', '"', \mb_substr($title, 0, 127, 'UTF-8'));
     }
 }
