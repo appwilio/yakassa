@@ -23,6 +23,28 @@ interface YaKassaOrderItem54FZ
     public const VAT_10_110 = 5;
     public const VAT_18_118 = 6;
 
+    public const PM_CREDIT = 'credit';
+    public const PM_ADVANCE = 'advance';
+    public const PM_FULL_PAYMENT = 'full_payment';
+    public const PM_CREDIT_PAYMENT = 'credit_payment';
+    public const PM_PARTIAL_PAYMENT = 'partial_payment';
+    public const PM_FULL_PREPAYMENT = 'full_prepayment';
+    public const PM_PARTIAL_PREPAYMENT = 'partial_prepayment';
+
+    public const PS_JOB = 'job';
+    public const PS_EXCISE = 'excise';
+    public const PS_SERVICE = 'service';
+    public const PS_ANOTHER = 'another';
+    public const PS_PAYMENT = 'payment';
+    public const PS_LOTTERY = 'lottery';
+    public const PS_COMMODITY = 'commodity';
+    public const PS_COMPOSITE = 'composite';
+    public const PS_GAMBLING_BET = 'gambling_bet';
+    public const PS_LOTTERY_PRIZE = 'lottery_prize';
+    public const PS_GAMBLING_PRIZE = 'gambling_prize';
+    public const PS_AGENT_COMMISSION = 'agent_commission';
+    public const PS_INTELLECTUAL_ACTIVITY = 'intellectual_activity';
+
     /**
      * Цена товара с учётом всех скидок и наценок.
      *
@@ -40,7 +62,7 @@ interface YaKassaOrderItem54FZ
     /**
      * Ставка НДС.
      *
-     * См. константы VAT_*.
+     * @see константы VAT_*
      *
      * @return int
      */
@@ -59,4 +81,22 @@ interface YaKassaOrderItem54FZ
      * @return string
      */
     public function getTitle(): string;
+
+    /**
+     * Признак способа расчёта.
+     *
+     * @see константы PM_*
+     *
+     * @return string
+     */
+    public function getPaymentMethodType(): string;
+
+    /**
+     * Признак предмета расчёта.
+     *
+     * @see константы PS_*
+     *
+     * @return string
+     */
+    public function getPaymentSubjectType(): string;
 }

@@ -127,6 +127,8 @@ class YaKassaPaymentForm
             'currency' => $item->getCurrency(),
             'text' => $this->formatTitle($item->getTitle()),
             'quantity' => $this->formatQuantity($item->getQuantity()),
+            'paymentMethodType' => $item->getPaymentMethodType(),
+            'paymentSubjectType' => $item->getPaymentSubjectType(),
         ]);
     }
 
