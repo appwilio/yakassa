@@ -89,7 +89,7 @@ class Order implements YaKassaOrder
 
 ### Дополнительные данные согласно требованиям 54-ФЗ
 
-> Внимание! Протокол дополняется, текущая версия 2.1. [Общая информация](https://kassa.yandex.ru/blog/fz54-developers), [описание изменений](https://kassa.yandex.ru/docs/API_Yandex.Kassa_54FZ_changes.pdf).
+> Внимание! Протокол дополняется, текущая версия ФФД 1.05. [Общая информация](https://tech.yandex.ru/money/doc/payment-solution/guides/receipts-docpage/), [описание](https://tech.yandex.ru/money/doc/payment-solution/payment-form/payment-form-receipt-docpage/).
 
 Заказ должен имплементировать интерфейс `\Appwilio\YaKassa\Contracts\YaKassaOrder54FZ`:
 
@@ -164,7 +164,7 @@ class OrderItem implements YaKassaOrderItem54FZ
 
     public function getTaxRate(): int
     {
-        return YaKassaOrderItem54FZ::VAT_18;
+        return self::VAT_18;
     }
 
     public function getCurrency(): ?string
@@ -175,6 +175,16 @@ class OrderItem implements YaKassaOrderItem54FZ
     public function getTitle(): string
     {
         return $this->product->title;
+    }
+    
+    public function getPaymentMethodType(): string
+    {
+        return self::PS_COMMODITY; // любая константа PS_*
+    }
+    
+    public function getPaymentSubjectType(): string
+    {
+        return self::PM_FULL_PAYMENT; // любая константа PM_*
     }
 }
 ```
