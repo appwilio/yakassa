@@ -2,7 +2,7 @@
 
 <p align="center">
     <a href="https://packagist.org/packages/appwilio/yakassa"><img src="https://img.shields.io/packagist/v/appwilio/yakassa.svg?style=flat" alt="Latest Version on Packagist" /></a>
-    <a href="https://github.com/appwilio/yakassa/actions?workflow=tests"><img src="https://github.com/appwilio/v/workflows/tests/badge.svg" alt="Testing" /></a>
+    <a href="https://github.com/appwilio/yakassa/actions?workflow=tests"><img src="https://github.com/appwilio/yakassa/workflows/tests/badge.svg" alt="Testing" /></a>
     <a href="https://scrutinizer-ci.com/g/appwilio/yakassa"><img src="https://img.shields.io/scrutinizer/g/appwilio/yakassa.svg?style=flat" alt="Quality Score" /></a>
     <a href="https://scrutinizer-ci.com/g/appwilio/yakassa/?branch=master"><img src="https://img.shields.io/scrutinizer/coverage/g/appwilio/yakassa/master.svg?style=flat" alt="Code Coverage" /></a>
     <a href="https://styleci.io/repos/92672777"><img src="https://github.styleci.io/repos/92672777/shield?style=flat" alt="StyleCI" /></a>
