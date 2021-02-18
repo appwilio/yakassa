@@ -1,4 +1,4 @@
-# Пакет для работы с Юмани.Кассой
+# Пакет для работы с Юмани.Кассой (бывшая Яндекс.Касса)
 
 <p align="center">
     <a href="https://packagist.org/packages/appwilio/yakassa"><img src="https://img.shields.io/packagist/v/appwilio/yakassa.svg?style=flat" alt="Latest Version on Packagist" /></a>
