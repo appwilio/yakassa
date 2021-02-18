@@ -22,7 +22,7 @@ class YaKassa
     public const STATE_ACCEPTED     = 0;
     public const STATE_UNAUTHORIZED = 1;
 
-    private const PAYMENT_URL = 'money.yandex.ru/eshop.xml';
+    private const PAYMENT_URL = 'yoomoney.ru/eshop.xml';
 
     /** @var string */
     private $shopId;
